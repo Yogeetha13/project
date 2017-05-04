@@ -17,11 +17,34 @@ if($action == NULL)
 	  	$success = isUserValid($username,$password);
 	    	if($success == true)
 	      	{
-	        	echo ' successful login!';    
+	        	$result = getTodoItems($_COOKIE['my_id']);
+			include('list.php');
+			echo ' successful login!';    
 		}
 		else
 		{
+			header("Location: badInfo.php");
 		        echo "incorrect username or password!";
 	 	}
-	}
+		else if ($action == 'registrar')
+		{
+			$name = filter_input(INPUT_POST, 'reg_uname');
+			if(isset($name))
+			{
+				$pass = filter_input(INPUT_POST, 'reg_password');
+				$exit = createUser($name,$pass);
+				if($exit == true)
+				{
+					include('user_exit.php');
+				}
+				else 
+				{
+					header("Location:login.php");
+				}
+			}
+		}
+		else if ($action == 'add')
+		{
+		
+		}
 ?>
