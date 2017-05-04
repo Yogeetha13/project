@@ -49,7 +49,7 @@ function createUser($username, $password)
    {
    	global $db;
   	$query = 'select * from users where username = :name and passwordHash = :pass';
-   	$statement = $db->prepare($query);
+	$statement = $db->prepare($query);
    	$statement->bindValue(':name',$username);
    	$statement->bindValue(':pass',$password);
    	$statement->execute();
@@ -58,12 +58,18 @@ function createUser($username, $password)
    	$count = $statement->rowCount();
    	if($count == 1)
    	{
-  		 return true;
+	setcookie('login',$username);
+	setcookie('my_id',$result[0]['id']);
+	setcookie('islogged',true);
+  	return true;
    	}
 	else	
 	{
-   		 return
-   	 	 false;
+	unset($_COOKIE['login']);
+        setcookie('login',false);
+	setcookie('islogged',false);
+	setcookie('id',false);
+	return false;
   	}
    }
 ?>
