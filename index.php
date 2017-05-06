@@ -62,4 +62,14 @@ if($action == NULL)
 	$result = displayItems($_COOKIE['userid']);
 	include('list.php');
   }
+  else if($action == "add_item") 
+  {
+  	if(isset($_POST['item_name'])) 
+	{
+        	addItem($_COOKIE['userid'], $_POST['item_name'], $_POST['item_date'],
+		$_POST['item_time']);
+	}
+	$result = displayItems($_COOKIE['userid']);
+	include('view/todo_list.php');
+  }
 ?>
