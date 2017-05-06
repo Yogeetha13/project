@@ -16,10 +16,12 @@
 	
 <?php endforeach;?>
 </table>
-<form method = 'post' action='index.php'>
+
+<form method = 'post' action = 'add_item.php'
 <strong> Description: </strong> <input type='text' name='description'/><br>
 <input type = 'hidden' name = 'action' value='add'><br>
 <input type="submit" value="Add"/>
+
 
 </form>
 </body>
