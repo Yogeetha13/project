@@ -5,7 +5,7 @@
        <strong> First Name: </strong> <input type = "text" name = 'fname'
        placeholder="firstname"/> <br> </br>
        <strong> Last Name: </strong> <input type= "text" name = 'lname'
-       placeholder="firstname" /> <br> </br>
+       placeholder="lastname" /> <br> </br>
        	<strong> Email Address: </strong> <input type = "text" name='email'
 	placeholder = "email address"/> <br> </br>
 	<strong> Password: </strong> <input type="password"
