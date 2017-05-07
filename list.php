@@ -1,5 +1,5 @@
 <?php
-	echo "<h2> Todo list system</h1><br/>";
+        echo "<h2> Todo list system</h1><br/>";
 	echo "Welcome, ".$_COOKIE['login'].'<br/>';
 	echo "Your to-do items: ";
 	echo "<br>";
@@ -18,9 +18,7 @@
 </table>
 
 <form method = 'post' action = 'add_item.php'>
-<strong> Description: </strong> 
-<input type="text" name="description"/>
-<input type = "hidden" name = "action" value="">
+<input type = "hidden" name = "action" value="add_item">
 <input type="submit" value="Add"/>
 
 
