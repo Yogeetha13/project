@@ -14,13 +14,14 @@ function getTodoItems($uid)
 	global $db;
 	$query = 'select * from todos where user_id= :userid';
 	$statement = $db->prepare($query);
-	$statement->bindValue(':userid',$uid);
+
+$statement->bindValue(':userid',$uid);
 	$statement->execute();
 	$result= $statement->fetchAll();
 	$statement->closeCursor();
 	return $result;
 }
-function createUser($username, $password)
+function createUser($fname,$lname, $email, $ph_number, $bday, $gender)
 {
 	global $db;
 	$query = 'select * from users where username = :name ';
@@ -30,16 +31,26 @@ function createUser($username, $password)
 	$result= $statement->fetchAll();
 	$statement->closeCursor();
 	$count = $statement->rowCount();
-	if($count > 0 )
+	if($count == 0 )
+	{
+		echo "Account already exists";
+	}
+	if($count>0)
 	{
 		return true;
 	}
 	else
 	{
-		$query = 'insert into users(username,passwordHash) values (:name, :pass)';
+		$query = 'insert into users(fname, lname, email, password, ph_number, bday, gender)
+		values (:fname, :lname, :email, :password, :ph_number, :bday, :gender)';
 		$statement = $db->prepare($query);
-		$statement->bindValue(':name',$username);
-		$statement->bindValue(':pass',$password);
+		$statement->bindValue(':fname',$fname);
+		$statement->bindValue(':lname',$lname);
+		$statement->bindValue(':email',$email);
+		$statement->bindValue(':password',$password);
+		$statement->bindValue(':ph_number',$ph_number);
+		$statement->bindValue(':bday',$bday);
+		$statement->bindValue(':gender',$gender);
 		$statement->execute();
 		$statement->closeCursor();
 		return false;

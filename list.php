@@ -20,8 +20,8 @@
 <form method = 'post' action = 'add_item.php'>
 <strong> Description: </strong> 
 <input type="text" name="description"/>
-<input type = "hidden" name = "action" value="add">
-<input type="submit" value="Add" class = "todobutton btn2"/>
+<input type = "hidden" name = "action" value="">
+<input type="submit" value="Add"/>
 
 
 </form>

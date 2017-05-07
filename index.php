@@ -10,10 +10,10 @@ if($action == NULL)
   {
     include('login.php');
   }
-  else if($action == 'test_user')
+  if($action == 'test_user')
   {
-      $username = $_POST['reg_uname'];
-      $password = $_POST['reg_password'];
+      $username = filter_input( INPUT_POST,'name');
+      $password = filter_input (INPUT_POST,'password');
       $success = isUserValid($username,$password);
 	    if($success == true)
 	      {
@@ -22,54 +22,48 @@ if($action == NULL)
 	      }
 	      else
 	      {
-	      	include("error.php");
+	      	header("Location: badInfo.php");
+	
 	      }
   }
-  else if ($action == 'registrar')
+  if($action == "register") 
   {
-  $name = filter_input(INPUT_POST, 'reg_uname');
-  if(isset($name))
+    	$fname = filter_input(INPUT_POST,'fname');
+  	$lname = filter_input(INPUT_POST,'lname');
+	$email = filter_input(INPUT_POST,'email');
+	$password = filter_input(INPUT_POST,'password');
+ 	$ph_number = filter_input(INPUT_POST,'ph_number');
+  	$bday = filter_input(INPUT_POST,'bday');
+  	$gender = filter_input(INPUT_POST,'gender')
+  	$exit = createUser($fname,$lname,$email, $password, $ph_number, $bday, $gender);
+  
+ 	 if($exit == true) 
+  	{
+  		include('error.php');
+  	}	 
+  	else 
+  	{
+  		header("Location: index.php");
+  	}
+  }	
+  if ($action == 'add')
   {
-  	$password = filter_input(INPUT_POST, 'reg_password');
-	$exit = createUser($name,$password);
-	if($exit == true)
+  	if(isset($_POST['todo_item']))
 	{
-		include ('user_exit.php');
-	}
-	else 
-	{
-		header("Location: login.php");
-	}									   
-  }
-  }
-  else if ($action == 'add')
-  {
-  	if(isset($_POST['item_name']))
-	{
-     		addItem($_COOKIE['userid'], $_POST['item_name'], $_POST['item_date'], $_POST['item_time']);
+     		addItem($_COOKIE['my_id'], $_POST['todo_item'], $_POST['date'], $_POST['time']);
         } 	
-        $result = displayItems($_COOKIE['userid']);
+        $result = displayItems($_COOKIE['my_id']);
 	include('list.php');
   }
   
-  else if($action == 'delete_item') 
+  if($action == 'delete_item') 
   {
   	if(isset($_POST['item_id'])) 
 	{
   		$selected = $_POST['item_id'];
-  		deleteItem($_COOKIE['userid'],$selected);
+  		deleteItem($_COOKIE['my_id'],$selected);
   	}	
-	$result = displayItems($_COOKIE['userid']);
+	$result = displayItems($_COOKIE['my_id']);
 	include('list.php');
-  }
-  else if($action == "add_item") 
-  {
-  	if(isset($_POST['item_name'])) 
-	{
-        	addItem($_COOKIE['userid'], $_POST['item_name'], $_POST['item_date'],
-		$_POST['item_time']);
-	}
-	$result = displayItems($_COOKIE['userid']);
-	include('view/todo_list.php');
   }
 ?>
