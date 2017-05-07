@@ -12,6 +12,8 @@
 <?php foreach($result as $res):?>
 <tr>
 	<td> <?php echo $res['todo_item']; ?>  </td>
+	<td> <?php echo $res['date']; ?> </td>
+	<td> <?php echo $res['time']; ?> </td>
 </tr>  
 	
 <?php endforeach;?>
