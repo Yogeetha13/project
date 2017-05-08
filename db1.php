@@ -1,132 +1,100 @@
-<?php
+ <?php
+  function addTodoItems($user_id,$todo_item, $date, $time)
+  {
+  global $db;
+  $query = 'insert into todos(user_id,todo_item, date, time)
+  values(:user_id,:todo_item, :date, :time)';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':user_id',$user_id);
+  $statement->bindValue(':todo_item',$todo_item);
+  $statement->bindValue(':date',$date);
+  $statement->bindValue(':time',$time);
+  $statement->execute();
+  $statement->closeCursor();
+ }
+ function getTodoItems($user_id)
+ {
+ 	global $db;
+	$query = 'select * from todos where user_id= :user_id';
+	$statement = $db->prepare($query);
+	$statement->bindValue(':user_id',$user_id);
+	$statement->execute();
+	$result= $statement->fetchAll();
+	$statement->closeCursor();
+	return $result;
+}
 
-function addTodoItem($user_id,$todo_item,$date,$time)
+function deleteItem($user_id,$item_id) {
+        global $db;
+	$query = 'delete from todos where id=:item_id and user_id=:user_id';
+	$statement = $db->prepare($query);
+	$statement->bindValue(':user_id',$user_id);
+	$statement->bindValue(':item_id',$item_id);
+	$statement->execute();
+	$statement->closeCursor();
+}
+
+function createUser($fname,$lname, $email,$password,$ph_number, $bday, $gender)
+
 {
-    global $db;
-    $query = 'insert into todos(user_id,todo_item,date,time) values (:userid,:todo_item, :date, :time)';
-    $statement = $db->prepare($query);
-    $statement->bindValue(':userid',$user_id);
-    $statement->bindValue(':todo_item',$todo_item);
-    $statement->bindValue(':date',$date);
-    $statement->bindValue(':time',$time);
-    $statement->execute();
-    $statement->closeCursor();
-    }
-				          function getTodoItems($user_id){
-					     global $db;
-					        $query = 'select * from todos where user_id= :userid';
-						   $statement = $db->prepare($query);
-						      $statement->bindValue(':userid',$user_id);
-						         $statement->execute();
-							    $result= $statement->fetchAll();
-							       $statement->closeCursor();
-							          return $result;
-								     }
-								        function
-									createUser($first_name,$last_name,$email,$username,$password,$phone_number,$birthday,$gender)
-									   {
-									      global $db;
-									         $query = 'select * from users where username =
-										 :username';
-										    $statement = $db->prepare($query);
-										       $statement->bindValue(':username',$username);
-										          $statement->execute();
-											     $result= $statement->fetchAll();
-											        $statement->closeCursor();
-												   $count = $statement->rowCount();
-												      if($count == 0)
-												         {
-													    echo "account already
-													    exists";
-													       }
-													       if($count > 0) {
-													          echo "account
-														  already exists";
-														     return true;
-														     }
-														        else{
-															   $query =
-															   'insert
-															   into users
-															   (first_name,last_name,email,username,passwordHash,phone_number,birthday,gender)
-															   values
-															   (:first_name,
-															   :last_name,
-															   :email,
-															      :username,
-															      :password,
-															      :phone_number,
-															      :birthday,
-															      :gender)';
-															         $statement
-																 =
-																 $db->prepare($query);
-																    $statement->bindValue(':first_name',$first_name);
-																       $statement->bindValue(':last_name',$last_name);
-																          $statement->bindValue(':email',$email);
-																	     $statement->bindValue(':username',$username);
-																	        $statement->bindValue(':password',$password);
-																		   $statement->bindValue(':phone_number',$phone_number);
-																		      $statement->bindValue(':birthday',$birthday);
-																		         $statement->bindValue(':gender',$gender);
-																			    $statement->execute();
-																			       $statement->closeCursor();
-																			          return
-																				  false;
-																				     }
-																				        }
-																					  
-																					    
-																					      
-																					        function
-																						isUserValid($username,$password){
-																						   global
-																						   $db;
-																						      $query
-																						      =
-																						      'select
-																						      *
-																						      from
-																						      users
-																						      where
-																						      username
-																						      =
-																						      :username
-																						      and
-																						      passwordHash
-																						      =
-																						      :password';
-																						         $statement
-																							 =
-																							 $db->prepare($query);
-																							    $statement->bindValue(':username',$username);
-																							       $statement->bindValue(':password',$password);
-																							          $statement->execute();
-																								     $result=
-																								     $statement->fetchAll();
-																								        $statement->closeCursor();
-																									   $count
-																									   =
-																									   $statement->rowCount();
-																									      if($count
-																									      ==
-																									      1)
-																									         {
-																										     setcookie('login',$username);
-																										         setcookie('my_id',$result[0]['id']);
-																											     setcookie('islogged',true);
-																											        
-																												    return
-																												    true;
-																												       }
-																												          else{
-																													      unset($_COOKIE['login']);
-																													          setcookie('login',false);
-																														      setcookie('islogged',false);
-																														          setcookie('my_id',false);
-																															       
-																															          return
-																																  false;
-																																     }
-																																        }
-																																	   ?>
+	global $db;
+	$query = 'select * from users where email =:email ';
+	$statement = $db->prepare($query);
+	$statement->bindValue(':email',$email);
+	$statement->execute();
+	$result= $statement->fetchAll();
+	$statement->closeCursor();
+	$count = $statement->rowCount();
+	if($count == 0 )
+	{
+	echo "Account already exists";
+	}
+	if($count>0)
+	{
+		return true;
+	}
+	else
+	{
+		$query = 'insert into users(fname, lname,email, password, ph_number,bday, gender)
+		values (:fname,:lname, :email, :password,:ph_number, :bday, :gender)';
+		$statement = $db->prepare($query);
+		$statement->bindValue(':fname',$fname);
+		$statement->bindValue(':lname',$lname);
+		$statement->bindValue(':email',$email);
+		$statement->bindValue(':password',$password);
+		$statement->bindValue(':ph_number',$ph_number);
+		$statement->bindValue(':bday',$bday);
+		$statement->bindValue(':gender',$gender);
+		$statement->execute();
+	        $statement->closeCursor();
+		return false;
+	}	
+}
+function isUserValid($email,$password)
+{      
+	global $db;
+	$query = 'select * from users where email = :email and password = :password';
+	$statement =  $db->prepare($query);
+	$statement->bindValue(':email',$email);
+	$statement->bindValue(':password',$password);
+	$statement->execute();
+	$result= $statement->fetchAll();
+	$statement->closeCursor();
+	$count = $statement->rowCount();
+	if($count == 1)
+	{
+		setcookie('login',$email);
+	 	setcookie('user_id',$result[0]['id']);
+		setcookie('islogged',true);
+		return true;
+	}
+	else	
+	{
+		unset($_COOKIE['login']);
+		setcookie('login',false);
+		setcookie('islogged',false);
+		setcookie('user_id',false);
+		return false;
+	}
+}
+?>
