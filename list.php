@@ -15,7 +15,7 @@
 	<td> <?php echo $res['date']; ?> </td>
 	<td> <?php echo $res['time']; ?> </td>
 	<td>
-	<form action = "index.php" action = "post">
+	<form action = "index.php"  method= "post">
 	<input type = "hidden" name = "item_id" value = "<?php echo $res['id'] ?>">
 	<input type = "hidden" name = "action" value = "delete_item">
 	<input type = "submit" value = "Delete"/>

@@ -59,7 +59,6 @@ if($action == "add_item")
 if($action =="delete_item")
 {
 	$selected =$_POST['item_id'];
-        echo $selected;
         deleteItem($_COOKIE['user_id'],$selected);
 	$result	=getTodoItems($_COOKIE['user_id']);
 	include('list.php');
