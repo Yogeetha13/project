@@ -15,13 +15,24 @@
  function getTodoItems($user_id)
  {
  	global $db;
-	$query = 'select * from todos where user_id= :user_id';
+	$query = 'select * from todos where user_id= :user_id and isdone=0';
 	$statement = $db->prepare($query);
 	$statement->bindValue(':user_id',$user_id);
 	$statement->execute();
 	$result= $statement->fetchAll();
 	$statement->closeCursor();
 	return $result;
+}
+
+function getTodoItems2($user_id) {
+       global $db;
+       $query = 'select * from todos where user_id=:user_id and isdone=1';
+       $statement = $db->prepare($query);
+       $statement->bindValue(':user_id',$user_id);
+       $statement->execute();
+       $result2 = $statement->fetchAll();
+       $statement->closeCursor();
+       return $result2;
 }
 
 function deleteItem($user_id,$item_id) {
@@ -42,6 +53,16 @@ function editTodoItem($item_id,$new_todo_item,$new_date,$new_time) {
 	$statement->bindValue(':new_date',$new_date);
 	$statement->bindValue(':new_time',$new_time);
 	$statement->bindValue(':user_id',$item_id);
+	$statement->execute();
+	$statement->closeCursor();
+}
+
+function updateTask($user_id,$item_id) {
+        global $db;
+	$query = 'update todos set isdone=1 where id=:item_id and user_id=:user_id';
+	$statement = $db->prepare($query);
+	$statement->bindValue(':item_id',$item_id);
+	$statement->bindValue(':user_id',$user_id);
 	$statement->execute();
 	$statement->closeCursor();
 }
