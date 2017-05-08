@@ -1,69 +1,100 @@
 <?php
-require('db1.php');
 require('db.php');
-$action = filter_input(INPUT_POST, "action");
-if($action == NULL)
+require('db1.php');
+
+
+$action = filter_input(INPUT_POST,"action");
+if($action == NULL) 
 {
-  $action = "display_login_page";
+	$action = "login";
 }
-  if($action == "display_login_page")
-  {
-    include('login.php');
-  }
-  if($action == 'test_user')
-  {
-      $username = filter_input( INPUT_POST,'name');
-      $password = filter_input (INPUT_POST,'password');
-      $success = isUserValid($username,$password);
-	    if($success == true)
-	      {
-	          $result = getTodoItems($_COOKIE['my_id']);
-		  include('list.php');
-	      }
-	      else
-	      {
-	      	header("Location: badInfo.php");
-	
-	      }
-  }
-  if($action == "register") 
-  {
-    	$fname = filter_input(INPUT_POST,'fname');
-  	$lname = filter_input(INPUT_POST,'lname');
-	$email = filter_input(INPUT_POST,'email');
+if($action == "login") 
+{
+	include('login.php');
+}
+
+
+if($action == "register") 
+{
+	$fname = filter_input(INPUT_POST,'fname');
+        $lname = filter_input(INPUT_POST,'lname');
+        $email = filter_input(INPUT_POST,'email');
+        $password = filter_input(INPUT_POST,'password');
+	$ph_number = filter_input(INPUT_POST,'ph_number');
+	$bday = filter_input(INPUT_POST, 'bday');
+	$gender = filter_input(INPUT_POST, 'gender');
+        $exit =	registerUser($fname,$lname,$email,$password,$ph_number,$bday,$gender);
+	if($exit == true) 
+	{
+		include('error.php');
+        } 
+	else 
+	{
+		header("Location: index.php");
+	}
+}
+if($action == "test_user") 
+{       
+       	$email = filter_input(INPUT_POST,'email');
 	$password = filter_input(INPUT_POST,'password');
- 	$ph_number = filter_input(INPUT_POST,'ph_number');
-  	$bday = filter_input(INPUT_POST,'bday');
-  	$gender = filter_input(INPUT_POST,'gender')
-  	$exit = createUser($fname,$lname,$email, $password, $ph_number, $bday, $gender);
-  
- 	 if($exit == true) 
-  	{
-  		include('error.php');
-  	}	 
-  	else 
-  	{
-  		header("Location: index.php");
-  	}
-  }	
-  if ($action == 'add')
-  {
-  	if(isset($_POST['todo_item']))
+	$success = isUserValid($email,$password);
+	if($success == true) 
 	{
-     		addItem($_COOKIE['my_id'], $_POST['todo_item'], $_POST['date'], $_POST['time']);
-        } 	
-        $result = displayItems($_COOKIE['my_id']);
-	include('list.php');
-  }
-  
-  if($action == 'delete_item') 
-  {
-  	if(isset($_POST['item_id'])) 
+		$result = getTodoItems($_COOKIE['user_id']);
+		include('list.php');
+	} 
+	else 
 	{
-  		$selected = $_POST['item_id'];
-  		deleteItem($_COOKIE['my_id'],$selected);
-  	}	
-	$result = displayItems($_COOKIE['my_id']);
+	        include('error.php');
+	}
+}
+if($action == "add_item") 
+{       
+        addItem($_COOKIE['user_id'],$_POST['todo_item'],$_POST['date'],$_POST['time']);	
+	$result = getTodoItems($_COOKIE['user_id']);
 	include('list.php');
-  }
+}
+
+
+if($action =="delete_item")
+{
+	if(isset($_POST['item_id']))
+	{
+	$selected =$_POST['item_id'];
+	deleteItem($_COOKIE['userid'],$selected);
+	}
+	$result	=displayItems($_COOKIE['userid']);
+	include('list.php');
+}
+
+if($action == "edit_item")
+{
+	if(isset($_POST['new_name']))
+	{
+		$item_id = $_POST['item_id'];
+		$new_name=$_POST['new_name'];
+		$new_date=$_POST['new_date'];
+		$new_time=$_POST['new_time'];
+		editItem($item_id,$new_name,$new_date,$new_time);
+		$result=displayItems($_COOKIE['userid']);
+		include('view/todo_list.php');
+	}
+}
+
+if($action=="update_status")
+{
+	if(isset($_POST['item_id']))
+	{
+		$item_id=$_POST['item_id'];
+		updateStatus($_COOKIE['userid'],$item_id);
+	}
+	$result=displayItems($_COOKIE['userid']);
+	include('view/todo_list.php');
+}
+
+if($action=="showCompletedItems")
+{
+	$result=showCompletedItems($_COOKIE['userid']);
+	include('view/updated_list.php');
+} 
 ?>
