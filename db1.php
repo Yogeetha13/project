@@ -34,6 +34,18 @@ function deleteItem($user_id,$item_id) {
 	$statement->closeCursor();
 }
 
+function editTodoItem($item_id,$new_todo_item,$new_date,$new_time) {
+        global $db;
+	$query = 'update todos set todo_item =:new_todo_item, date= :new_date, time=:new_time where id=:user_id';
+	$statement = $db->prepare($query);
+	$statement->bindValue(':new_todo_item',$new_todo_item);
+	$statement->bindValue(':new_date',$new_date);
+	$statement->bindValue(':new_time',$new_time);
+	$statement->bindValue(':user_id',$item_id);
+	$statement->execute();
+	$statement->closeCursor();
+}
+
 function createUser($fname,$lname, $email,$password,$ph_number, $bday, $gender)
 
 {

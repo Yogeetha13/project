@@ -21,6 +21,15 @@
 	<input type = "submit" value = "Delete"/>
 	</form>
 	</td>
+	<td>
+	<form action = "edit.php"  method= "post">
+	<input type = "hidden" name = "item_id" value = "<?php echo $res['id'] ?>">
+	<input type = "hidden" name = "todo_item" value = "<?php echo $res['todo_item'] ?>">
+	<input type = "hidden" name = "date" value = "<?php echo $res['date'] ?>">
+	<input type = "hidden" name = "tme" value = "<?php echo $res['time'] ?>">
+	<input type = "submit" value = "Edit"/>
+	</form>
+	</td>
 </tr>  
 	
 <?php endforeach;?>

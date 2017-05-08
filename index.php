@@ -63,5 +63,15 @@ if($action =="delete_item")
 	$result	=getTodoItems($_COOKIE['user_id']);
 	include('list.php');
 }
+
+if($action == "edit") {
+    $item_id = $_POST['item_id'];
+    $new_todo_item = $_POST['new_todo_item'];
+    $new_date = $_POST['new_date'];
+    $new_time = $_POST['new_time'];
+    editTodoItem($item_id,$new_todo_item,$new_date,$new_time);
+    $result = getTodoItems($_COOKIE['user_id']);
+    include('list.php');
+}
  
 ?>
