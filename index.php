@@ -52,6 +52,7 @@ if($action == "add_item")
 { 
        addTodoItems($_COOKIE['user_id'],$_POST['todo_item'],$_POST['date'],$_POST['time']);	
 	$result = getTodoItems($_COOKIE['user_id']);
+	$result2 = getTodoItems2($_COOKIE['user_id']);
 	include('list.php');
 }
 
@@ -61,6 +62,7 @@ if($action =="delete_item")
 	$selected =$_POST['item_id'];
         deleteItem($_COOKIE['user_id'],$selected);
 	$result	=getTodoItems($_COOKIE['user_id']);
+	$result2 = getTodoItems2($_COOKIE['user_id']);
 	include('list.php');
 }
 
@@ -71,7 +73,18 @@ if($action == "edit") {
     $new_time = $_POST['new_time'];
     editTodoItem($item_id,$new_todo_item,$new_date,$new_time);
     $result = getTodoItems($_COOKIE['user_id']);
+    $result2 = getTodoItems2($_COOKIE['user_id']);
     include('list.php');
+}
+
+if($action == "complete") {
+
+    $item_id = $_POST['item_id'];
+    updateTask($_COOKIE['user_id'],$item_id);
+    $result = getTodoItems($_COOKIE['user_id']);
+    $result2 = getTodoItems2($_COOKIE['user_id']);
+    include('list.php');
+  
 }
  
 ?>
