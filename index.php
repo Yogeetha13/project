@@ -41,6 +41,7 @@ if($action == "test_user")
 	if($success == true) 
 	{
 		$result = getTodoItems($_COOKIE['user_id']);
+		$result2 = getTodoItems2($_COOKIE['user_id']);
 		include('list.php');
 	} 
 	else 

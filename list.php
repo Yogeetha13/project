@@ -8,6 +8,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="button.css">
 </head>
 <body>
 <table class="one">
@@ -30,7 +31,7 @@
 	<form action = "index.php"  method= "post">
 	<input type = "hidden" name = "item_id" value = "<?php echo $res['id'] ?>">
 	<input type = "hidden" name = "action" value = "delete_item">
-	<input type = "submit" value = "Delete"/>
+	<input type = "submit" value = "Delete" class="button"/>
 	</form>
 	</td>
 	
@@ -40,7 +41,7 @@
 	<input type = "hidden" name = "todo_item" value = "<?php echo $res['todo_item'] ?>">
 	<input type = "hidden" name = "date" value = "<?php echo $res['date'] ?>">
 	<input type = "hidden" name = "time" value = "<?php echo $res['time'] ?>">
-	<input type = "submit" value = "Edit"/>
+	<input type = "submit" value = "Edit" class="button"/>
 	</form>
 	</td>
 	
@@ -48,7 +49,7 @@
 	<form action = "index.php"  method= "post">
 	<input type = "hidden" name = "action" value = "complete"/>
 	<input type = "hidden" name = "item_id" value = " <?php echo $res['id'];?>"/>
-	<input type = "submit" value = "Complete"/> 
+	<input class="button" type = "submit" value = "Complete"/> 
 	</form>
 	</td>
 </tr>  
@@ -57,7 +58,7 @@
 </table>
 
 <form method = 'post' action = 'add_item.php'>
-<input type="submit" value="Add"/>
+<input class="button" type="submit" value="Add"/>
 </form>
 
 
@@ -83,7 +84,7 @@
 	    <form action="index.php" method="post">
 	    <input type="hidden" name="item_id" value="<?php echo $res['id']?>">
 	    <input type="hidden" name="action" value="delete_item">
-	    <input type="submit" value="delete">
+	    <input class="button" type="submit" value="delete">
 	    </form>
 	</td>
 	<td><form action="edit.php" method="post">
@@ -91,7 +92,7 @@
 	    <input type="hidden" name="todo_item" value="<?php echo $res['todo_item']?>">
 	    <input type="hidden" name="date" value="<?php echo $res['date']?>">
 	    <input type="hidden" name="time" value="<?php echo $res['time']?>">
-	    <input type="submit" value="edit">
+	    <input class="button" type="submit" value="edit">
 	</form>
 	</td>
 	<td>Complete</td>

@@ -1,0 +1,26 @@
+table {
+    font-family: "Lato","sans-serif";
+    width:100%;
+}
+
+table.one {
+    margin-botton: 3em;
+    border-collapse:collapse;
+}
+
+td {
+    text-align: center;
+    width: 10em;
+    padding: 1em;
+}
+
+th {
+    text-align:center;
+    padding:1em;
+    background-color: #e8503a;
+    color: white;
+}
+
+tr {
+    height: 1em;
+}
